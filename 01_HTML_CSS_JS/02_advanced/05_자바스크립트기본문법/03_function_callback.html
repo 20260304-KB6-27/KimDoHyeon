@@ -1,0 +1,23 @@
+<!doctype html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script>
+      function callFun(callback, num) {
+        for (let i = 0; i < num; i++) {
+          callback();
+        }
+      }
+
+      let fun = function () {
+        alert('함수 호출');
+        console.log('함수 호출');
+      };
+
+      callFun(fun, 3);
+    </script>
+  </head>
+
+  <body></body>
+</html>
