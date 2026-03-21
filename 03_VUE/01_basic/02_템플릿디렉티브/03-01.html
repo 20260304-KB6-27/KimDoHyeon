@@ -1,24 +1,45 @@
 <!doctype html>
-<html lang="en">
+<!-- !vo 치기 -->
+<html lang="ko">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Script스니펫</title>
-    <script type="text/javascript" src="https://unpkg.com/vue"></script>
+    <title>Vue 3 연습용 Options API</title>
+    <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
   </head>
-
   <body>
     <div id="app">
-      <h2>{{message}}</h2>
+      <!-- 데이터 바인딩 -->
+       <h2 v-text="message"></h2>
+       <h2>{{message}}</h2>
     </div>
-    <script type="text/javascript">
-      var model = { message: 'Hello Vue3!' };
-      var vm = Vue.createApp({
-        name: 'App',
+
+    <script>
+      // 1. Vue 어플리케이션 인스턴스를 생성
+      // 2. 생성된 반응형 데이터를 템플릿에 바인딩
+      // 가상돔
+      // 1. mount 함수를 통해 앱을 마운트 -> 가상DOM 생성
+      // 2. 브라우저에 가상 DOM 반영 -> 실제 DOM 생성
+      // 3. 반응형데이터(message)가 변경되면 Vue가 변경을 감지 -> 새로운 가상 DOM 생성
+      // - 여기서 가상 DOM은 전체를 새로 생성함. 왜냐하면 가상DOM은 그냥 JS 객체라서 메모리 안에서 데이터를 다루기에 비용이 적음.
+      // - 반면 실제DOM 수정 시 Style 재계산(css), Layout (위치/크기 재계산), Paint (화면에 픽셀 그리기), Composite (레이어 합성)
+      //   같은 추가 작업이 많음. 비용이 큼!
+      // 4. Vue의 Diffing 알고리즘으로 새로 생성된 가상 DOM과 기존 가상 DOM을 비교
+      // 5. 변경된 부분만 실제 DOM에 반영 (렌더링)
+      // - 변경된 부분을 감지하여 그 주변만 다시 파이프라인 실행함.
+      const { createApp } = Vue;
+
+      const model = { message: 'Hello Vue3!' };
+
+      createApp({
+        // 반응형 데이터를 정의하는 곳
         data() {
           return model;
         },
-      }).mount('#app');
+        methods: {
+          
+        }
+      }).mount("#app");
     </script>
   </body>
 </html>

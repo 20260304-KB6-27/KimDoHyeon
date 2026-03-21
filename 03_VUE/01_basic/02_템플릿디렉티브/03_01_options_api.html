@@ -1,0 +1,56 @@
+<!doctype html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Vue 3 연습용 Options API</title>
+    <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+  </head>
+  <body>
+    <div id="app">
+      <div>
+        <h2>일반 메시지 : {{ nomalMessage }}</h2>
+        <h2>반응형 메시지 : {{ message }}</h2>
+        <h2>현재시간 : {{ currentTime }}</h2>
+      </div>
+    </div>
+
+    <script>
+      const { createApp } = Vue;
+
+      // Vue에서 조작하기 어려움.
+      let nomalMessage = "일반 메시지 입니다.";
+
+      var vm = createApp({
+        // Vue 인스턴스가 생성된 직후에 동작하는 함수
+        // API 호출 시 많이 사용
+        created() {
+          // this는 Vue 인스턴스
+          this.nomalMessage = "일반 메시지!";
+        },
+
+        // 반응형 데이터 정의 (data()에 등록된 순간 Vue가 반응형으로 변환)
+        data() {
+          return {
+            // 일반 변수 값을 복사해서 반응형으로 등록
+            // 그저 값을 복사만 해오기 때문에 추후에 let nomalMessage 값을 변경해도
+            // <h2>일반 메시지 : {{ nomalMessage }}</h2> 여기에서의 값은 안 바뀜. Vue가 인지 못함. 연결이 끊기는 것.
+            // vm.nomalMessage로 수정해야 바뀜. 그냥 nomalMessage로 수정하면 화면 안 바뀜.
+            nomalMessage: nomalMessage,
+            message: "안녕하세요 Vue",
+            currentTime: new Date().toLocaleTimeString(),
+          };
+        },
+
+        // 컴포넌트가 실제 DOM에 생성된 직후 호출 -> DOM 조작 가능
+        mounted() {
+          setInterval(() => {
+            // this를 통해 반응형데이터(상태)에 접근 가능
+            this.currentTime = new Date().toLocaleTimeString();
+          }, 1000);
+        },
+        methods: {},
+      }).mount("#app");
+    </script>
+  </body>
+</html>

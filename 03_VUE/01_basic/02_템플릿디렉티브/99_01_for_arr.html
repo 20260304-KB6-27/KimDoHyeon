@@ -1,0 +1,67 @@
+<!doctype html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Vue 3 연습용 Composition</title>
+    <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+  </head>
+  <body>
+    <!-- 
+    v-for
+    문법: v-for="(item, index) in 배열"
+
+    주의
+    :key 속성을 필수적으로 등록!!
+    인덱스값은 변할 수 있기 때문에 key로 사용하지 않는 것이 좋음.
+    -->
+
+    <div id="app">
+      <ul>
+        <!-- (비추천)key를 index로 사용하는 경우 -->
+        <li v-for="(fruit, index) in fruits" :key="index">
+          {{index}}:{{fruit}}
+        </li>
+      </ul>
+
+      <button @click="removeFirst">첫 번째 항목 삭제</button>
+
+      <hr />
+
+      <!-- (추천)key를 고유 id로 사용하는 경우 -->
+      <ul>
+        <li v-for="fruit in fruitsWithId" :key="fruit.id">
+          {{fruit.id}}:{{fruit.name}}
+        </li>
+      </ul>
+    </div>
+    <script>
+      const { createApp, ref } = Vue;
+
+      createApp({
+        setup() {
+          // key를 index로 사용 - 첫 번째 항목 삭제 시 index가 바뀌어서
+          // Vue가 잘못된 노드를 재사용할 수 있음
+          const fruits = ref(["사과", "배", "포도"]);
+
+          // key를 고유 id로 사용 - 삭제해도 id는 변하지 않으므로 안전
+          const fruitsWithId = ref([
+            { id: 1, name: "사과" },
+            { id: 2, name: "배" },
+            { id: 3, name: "포도" },
+          ]);
+          const removeFirst = () => {
+            fruits.value.shift();
+            fruitsWithId.value.shift();
+          };
+
+          return {
+            fruits,
+            fruitsWithId,
+            removeFirst,
+          };
+        },
+      }).mount("#app");
+    </script>
+  </body>
+</html>
