@@ -1,0 +1,199 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <!-- font-awesome 라이브러리 가져오기 -->
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
+    />
+    <!-- Bootstrap CSS 디자인, 레이아웃 -->
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css"
+    />
+    <!-- Bootstrap JS 모달, 드롭다운 -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- 아이콘 -->
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
+      integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    />
+    <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+  </head>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+    }
+  </style>
+  <body>
+    <div id="app">
+      <!-- 헤더 -->
+      <div
+        class="p-5 bg-info"
+        style="
+          background-image: url(&quot;https://upload.wikimedia.org/wikipedia/commons/thumb/9/91/Jalais_Hill%2C_Pontoise.jpg/960px-Jalais_Hill%2C_Pontoise.jpg&quot;);
+          background-size: cover;
+        "
+      >
+        <h1>Fullstack Study</h1>
+        <p>Vue+자바 기반의 풀스택 기술을 배웁니다.</p>
+      </div>
+      <!-- nav -->
+      <div>
+        <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+          <div class="container-fluid">
+            <a class="navbar-brand text-start"
+              ><i class="fa-solid fa-house"></i> fullstack</a
+            >
+
+            <button
+              class="navbar-toggler"
+              data-bs-toggle="collapse"
+              data-bs-target="#menu"
+            >
+              <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <!-- 접히는 목록 -->
+            <div class="collapse navbar-collapse" id="menu">
+              <ul class="navbar-nav me-auto">
+                <li class="nav-item">
+                  <a class="nav-link" href="#">메뉴1</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="#">메뉴2</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="#">메뉴3</a>
+                </li>
+              </ul>
+              <ul class="navbar-nav">
+                <li class="nav-item" v-if="!isLogin">
+                  <a class="nav-link" @click="login"> 로그인</a>
+                </li>
+                <li class="nav-item" v-if="isLogin">
+                  <a class="nav-link" href="#">
+                    <img
+                      src="data:image/jpeg;base64,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"
+                      class="rounded-circle"
+                      style="width: 20px; height: 20px; object-fit: cover"
+                    />
+                    admin</a
+                  >
+                </li>
+                <li class="nav-item" v-if="isLogin">
+                  <a class="nav-link" @click="logout">
+                    <i class="fa-solid fa-arrow-right-from-bracket"></i>
+                    로그아웃</a
+                  >
+                </li>
+              </ul>
+            </div>
+          </div>
+        </nav>
+      </div>
+
+      <!-- 글 목록 -->
+      <section class="container-fluid d-flex justify-content-center">
+        <div class="col-md-12">
+          <h3 style="margin-top: 70px">
+            <i class="fa-solid fa-list"></i>
+            글 목록
+          </h3>
+          <table class="table table-hover w-100">
+            <thead>
+              <th style="width: 50px">No</th>
+              <th>제 목</th>
+              <th style="width: 150px">작 성 자</th>
+              <th style="width: 150px">등 록 일</th>
+            </thead>
+            <tbody>
+              <tr v-for="post in posts" :key="post.no">
+                <td>{{post.no}}</td>
+                <td><a href="#">{{post.title}}</a></td>
+                <td>{{post.author}}</td>
+                <td>{{post.date}}</td>
+              </tr>
+            </tbody>
+          </table>
+
+          <!-- 페이지 네이션 -->
+          <div class="d-flex my-5">
+            <div class="flex-grow-1">
+              <ul class="pagination justify-content-center">
+                <li class="page-item">
+                  <a class="page-link" href="#"
+                    ><i class="fa-solid fa-backward-step"></i
+                  ></a>
+                </li>
+                <li class="page-item">
+                  <a class="page-link" href="#"
+                    ><i class="fa-solid fa-chevron-left"></i
+                  ></a>
+                </li>
+                <li class="page-item"><a class="page-link" href="#">6</a></li>
+                <li class="page-item"><a class="page-link" href="#">7</a></li>
+                <li class="page-item"><a class="page-link" href="#">8</a></li>
+                <li class="page-item active">
+                  <a class="page-link" href="#">9</a>
+                </li>
+                <li class="page-item"><a class="page-link" href="#">10</a></li>
+                <li class="page-item">
+                  <a class="page-link" href="#"
+                    ><i class="fa-solid fa-chevron-right"></i
+                  ></a>
+                </li>
+                <li class="page-item">
+                  <a class="page-link" href="#"
+                    ><i class="fa-solid fa-forward-step"></i
+                  ></a>
+                </li>
+                <button type="button" class="btn btn-primary ms-5">
+                  <i class="fa-solid fa-pen-to-square"></i>
+                  글쓰기
+                </button>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </section>
+    </div>
+    <script>
+      const { createApp, ref } = Vue;
+
+      createApp({
+        setup() {
+          // 로그인 유무
+          const isLogin = ref(false);
+          // 게시글
+          const posts = ref([
+            { no: 1, title: "글제목1", author: "user01", date: "2026-03-22" },
+            { no: 2, title: "글제목2", author: "user01", date: "2026-03-22" },
+            { no: 3, title: "글제목3", author: "user01", date: "2026-03-22" },
+            { no: 4, title: "글제목4", author: "user01", date: "2026-03-22" },
+            { no: 5, title: "글제목5", author: "user01", date: "2026-03-22" },
+          ]);
+
+          const login = () => {
+            console.log("로그인");
+            isLogin.value = true;
+          };
+
+          const logout = () => {
+            console.log("로그아웃");
+            isLogin.value = false;
+          };
+
+          return { isLogin, posts, login, logout };
+        },
+      }).mount("#app");
+    </script>
+  </body>
+</html>
