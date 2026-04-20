@@ -1,4 +1,4 @@
-package advanced.ch07.exam;
+package advanced.ch07.sec10.exam01;
 
 public class FileDownloadService extends HttpServlet{
     // 파일 다운로드 기능

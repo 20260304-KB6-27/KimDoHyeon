@@ -1,4 +1,4 @@
-package advanced.ch07.exam;
+package advanced.ch07.sec10.exam01;
 /*
 * 추상 클래스(abstract class)
 * 1. 형태를 갖추지 못한 미완성된 클래스
